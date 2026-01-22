@@ -23,6 +23,17 @@ This guide explains how to deploy the ChitChat application (MERN Stack) to **Ren
     git push -u origin master
     ```
 
+## Critical Step: MongoDB Atlas IP Whitelist
+
+**Before deploying, you MUST allow connections from Render.**
+
+1.  Log in to your [MongoDB Atlas Dashboard](https://cloud.mongodb.com/).
+2.  Go to **Network Access** (in the left sidebar under Security).
+3.  Click **+ Add IP Address**.
+4.  Select **Allow Access from Anywhere** (or enter `0.0.0.0/0`).
+5.  Click **Confirm**.
+    *   *Reason: Render uses dynamic IP addresses, so you cannot whitelist a specific IP. You must allow all IPs.*
+
 ## Step 2: Deploy the Server (Backend)
 
 1.  Go to your [Render Dashboard](https://dashboard.render.com/).
