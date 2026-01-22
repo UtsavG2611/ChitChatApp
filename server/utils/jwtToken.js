@@ -4,6 +4,7 @@ export const generateJWTToken = async (user,message, statusCode, res) => {
     const token = jwt.sign({id: user._id}, process.env.JWT_SECRET_KEY, {
         expiresIn: process.env.JWT_EXPIRE,
     });
+    // Check for Render environment explicitly
     const isDev = process.env.NODE_ENV === "development" && process.env.RENDER !== "true";
     return res
     .status(statusCode)
