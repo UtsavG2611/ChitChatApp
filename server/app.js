@@ -15,6 +15,9 @@ const __dirname = path.dirname(__filename);
 const app = express();
 config({path: "./config/config.env"});
 
+// Trust proxy is required for secure cookies behind Render's load balancer
+app.set('trust proxy', 1);
+
 app.use(cors({
     origin: (origin, callback) => {
         const allowedOrigins = [
