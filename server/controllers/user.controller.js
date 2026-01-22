@@ -137,11 +137,12 @@ export const signin = catchAsyncError(async(req,res,next) => {
 
 });
 export const signout = catchAsyncError(async(req,res,next) => {
+    const isDev = process.env.NODE_ENV === "development" && process.env.RENDER !== "true";
     res.status(200).cookie("token", "", {
         maxAge: 0,
         httpOnly: true,
-        sameSite: process.env.NODE_ENV === "development" ? "lax" : "none",
-        secure: process.env.NODE_ENV === "development" ? false : true,
+        sameSite: isDev ? "lax" : "none",
+        secure: isDev ? false : true,
     })
     .json({
         success: true,
