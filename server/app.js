@@ -58,8 +58,8 @@ app.use(
 );
 
 // Add status endpoint to check database connection
+import mongoose from 'mongoose';
 app.get("/api/v1/status", (req, res) => {
-    const mongoose = require('mongoose');
     const connectionState = mongoose.connection.readyState;
     const stateMap = {
         0: 'disconnected',
