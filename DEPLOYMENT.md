@@ -84,6 +84,16 @@ This guide explains how to deploy the ChitChat application (MERN Stack) to **Ren
 6.  Click **Create Static Site**.
 7.  **Copy the Client URL** (e.g., `https://chitchat-client.onrender.com`) once it is live.
 
+### Important: Fix "Blank Page" or 404 on Refresh
+If you see a blank page or get 404 errors when refreshing:
+1. Go to your **Client** (Static Site) dashboard on Render.
+2. Go to **Redirects/Rewrites**.
+3. Add a new rule:
+   * **Source**: `/*`
+   * **Destination**: `/index.html`
+   * **Action**: `Rewrite`
+4. Save changes.
+
 ## Step 4: Final Configuration
 
 1.  Go back to your **Server** service on Render.
