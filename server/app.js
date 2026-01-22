@@ -17,9 +17,14 @@ config({path: "./config/config.env"});
 
 app.use(cors({
     origin: (origin, callback) => {
-        const allowedOrigins = process.env.NODE_ENV === "development" 
-            ? ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"] 
-            : [process.env.FRONTEND_URL, process.env.FRONTEND_URL?.replace(/\/$/, "")];
+        const allowedOrigins = [
+            process.env.FRONTEND_URL, 
+            process.env.FRONTEND_URL?.replace(/\/$/, "")
+        ];
+
+        if (process.env.NODE_ENV === "development") {
+            allowedOrigins.push("http://localhost:5173", "http://localhost:5174", "http://localhost:5175");
+        }
             
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
