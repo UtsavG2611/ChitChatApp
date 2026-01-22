@@ -20,6 +20,12 @@ export const login = createAsyncThunk("auth/login", async (credentials, thunkAPI
         }
         
         const res = await axiosInstance.post("/user/sign-in", credentials);
+        
+        // Store token in localStorage for reliable authentication
+        if (res.data.token) {
+            localStorage.setItem("token", res.data.token);
+        }
+
         // After successful login, fetch user data
         const userRes = await axiosInstance.get("/user/me");
         return userRes.data.user;
@@ -39,6 +45,12 @@ export const login = createAsyncThunk("auth/login", async (credentials, thunkAPI
 export const signup = createAsyncThunk("auth/signup", async (userData, thunkAPI) => {
     try {
         const res = await axiosInstance.post("/user/sign-up", userData);
+        
+        // Store token in localStorage for reliable authentication
+        if (res.data.token) {
+            localStorage.setItem("token", res.data.token);
+        }
+
         // After successful signup, fetch user data
         const userRes = await axiosInstance.get("/user/me");
         return userRes.data.user;
@@ -74,6 +86,7 @@ const authSlice = createSlice({
             state.onlineUsers = action.payload;
         },
         logout(state) {
+            localStorage.removeItem("token");
             state.authUser = null;
             state.onlineUsers = [];
             state.error = null;
