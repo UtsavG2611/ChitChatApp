@@ -9,6 +9,8 @@ import messageRouter from "./routes/message.routes.js";
 import path from "path";
 import { fileURLToPath } from "url";
 
+import mongoose from 'mongoose';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -58,7 +60,6 @@ app.use(
 );
 
 // Add status endpoint to check database connection
-import mongoose from 'mongoose';
 app.get("/api/v1/status", (req, res) => {
     const connectionState = mongoose.connection.readyState;
     const stateMap = {
