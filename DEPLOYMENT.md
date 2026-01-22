@@ -93,6 +93,15 @@ This guide explains how to deploy the ChitChat application (MERN Stack) to **Ren
 
 ## Troubleshooting
 
+*   **"npm error enoent Could not read package.json"**: This usually happens if you have nested `.git` folders (submodules).
+    *   **Fix**: Run these commands locally before pushing:
+        ```bash
+        rm -rf client/.git
+        git rm -r --cached client
+        git add client
+        git commit -m "Fix: Remove nested git repository in client"
+        git push
+        ```
 *   **Database Connection**: If the server fails to start, check `MONGO_URI`. Ensure your MongoDB Atlas Network Access allows `0.0.0.0/0` (Allow Access from Anywhere).
 *   **CORS Errors**: If the client can't talk to the server, ensure `FRONTEND_URL` in Server env vars matches the Client URL exactly (no trailing slash usually).
 *   **Mixed Content**: Ensure both Server and Client are on `https`. Render handles this automatically.

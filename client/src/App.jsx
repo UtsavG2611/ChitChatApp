@@ -60,6 +60,8 @@ const App = () => {
     );
   }
 
+  console.log("Auth User:", authUser);
+
   return (
     <ThemeProvider>
       <Router>
