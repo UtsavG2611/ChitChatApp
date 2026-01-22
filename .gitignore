@@ -1,0 +1,25 @@
+# Node.js
+node_modules/
+dist/
+build/
+.env
+config/config.env
+*.log
+
+# Client-specific
+client/node_modules/
+client/dist/
+
+# Server-specific
+server/node_modules/
+server/temp/
+server/config/config.env
+
+# IDEs
+.vscode/
+.idea/
+.DS_Store
+
+# Temporary files
+temp/
+tmp/
