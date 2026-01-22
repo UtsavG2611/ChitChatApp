@@ -10,6 +10,13 @@ export const isAuthenticated = catchAsyncError(async(req, res, next)=>{
         token = req.headers.authorization.split(' ')[1];
     }
 
+    // Debug logging for auth issues
+    if (!token) {
+        console.log("Auth failed: No token found in cookies or Authorization header");
+        console.log("Cookies:", req.cookies);
+        console.log("Headers:", req.headers.authorization ? "Present" : "Missing");
+    }
+
     if(!token){
         return(
             res.status(401).json({

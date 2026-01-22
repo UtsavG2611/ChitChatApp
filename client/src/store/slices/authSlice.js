@@ -70,6 +70,19 @@ export const getUser = createAsyncThunk("user/me", async(_, thunkAPI)=> {
     }
 });
 
+export const logoutUser = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
+    try {
+        await axiosInstance.get("/user/sign-out");
+        localStorage.removeItem("token");
+        return true;
+    } catch (error) {
+        console.error("Logout error:", error);
+        // Ensure token is removed even if server request fails
+        localStorage.removeItem("token");
+        return thunkAPI.rejectWithValue(error.response?.data || "Logout failed");
+    }
+});
+
 const authSlice = createSlice({
     name : "auth",
     initialState: {
@@ -84,12 +97,6 @@ const authSlice = createSlice({
     reducers:{
         setOnlineUsers(state, action){
             state.onlineUsers = action.payload;
-        },
-        logout(state) {
-            localStorage.removeItem("token");
-            state.authUser = null;
-            state.onlineUsers = [];
-            state.error = null;
         },
         clearError(state) {
             state.error = null;
@@ -137,9 +144,22 @@ const authSlice = createSlice({
         .addCase(getUser.rejected, (state,action)=>{
             state.authUser = null;
             state.isCheckingAuth = false;
+        })
+        // Logout cases
+        .addCase(logoutUser.fulfilled, (state) => {
+            state.authUser = null;
+            state.onlineUsers = [];
+            state.error = null;
+            state.isCheckingAuth = false;
+        })
+        .addCase(logoutUser.rejected, (state, action) => {
+            state.authUser = null;
+            state.onlineUsers = [];
+            state.error = action.payload;
+            state.isCheckingAuth = false;
         });
     },
 });
 
-export const {setOnlineUsers, logout, clearError} = authSlice.actions;
+export const {setOnlineUsers, clearError} = authSlice.actions;
 export default authSlice.reducer;

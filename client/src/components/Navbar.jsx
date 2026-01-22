@@ -1,7 +1,7 @@
 import { LogOut, MessageSquare, Settings, User, Sun, Moon } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { axiosInstance } from "../lib/axios";
+import { logoutUser } from "../store/slices/authSlice";
 import { toast } from "react-toastify";
 import { useTheme } from "../context/ThemeContext";
 
@@ -11,18 +11,18 @@ const Navbar = () => {
   const navigate = useNavigate();
   const { isDark, toggleTheme } = useTheme();
   
-  const handleLogout = async () => {
-    try {
-      // Call server-side signout endpoint
-      await axiosInstance.get("/user/sign-out");
-      toast.success("Logged out successfully!");
-    } catch (error) {
-      console.error("Logout error:", error);
-    } finally {
-      // Clear user data and redirect to login
-      navigate('/login');
-      window.location.reload();
-    }
+  const handleLogout = () => {
+    dispatch(logoutUser())
+      .unwrap()
+      .then(() => {
+        toast.success("Logged out successfully!");
+        navigate('/login');
+      })
+      .catch((error) => {
+        console.error("Logout error:", error);
+        // Even if server logout fails, the slice handles client cleanup
+        navigate('/login');
+      });
   };
   return (
     <>
